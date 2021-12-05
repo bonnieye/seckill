@@ -5,6 +5,9 @@ import com.example.seckill.pojo.User;
 import com.example.seckill.vo.LoginVo;
 import com.example.seckill.vo.RespBean;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * <p>
  *  服务类
@@ -17,6 +20,6 @@ public interface IUserService extends IService<User> {
 /**
  * 登录
  */
-    RespBean login(LoginVo loginVo);
+    RespBean login(LoginVo loginVo, HttpServletRequest request, HttpServletResponse response);
 
 }
