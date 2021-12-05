@@ -1,4 +1,4 @@
-package com.example.seckill.controller.pojo;
+package com.example.seckill.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;

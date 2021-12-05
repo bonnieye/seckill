@@ -1,9 +1,9 @@
-package com.example.seckill.controller.service.impl;
+package com.example.seckill.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.seckill.controller.mapper.UserMapper;
-import com.example.seckill.controller.service.IUserService;
-import com.example.seckill.controller.pojo.User;
+import com.example.seckill.mapper.UserMapper;
+import com.example.seckill.service.IUserService;
+import com.example.seckill.pojo.User;
 import org.springframework.stereotype.Service;
 
 /**

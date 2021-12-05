@@ -1,7 +1,7 @@
-package com.example.seckill.controller.service;
+package com.example.seckill.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.seckill.controller.pojo.User;
+import com.example.seckill.pojo.User;
 
 /**
  * <p>

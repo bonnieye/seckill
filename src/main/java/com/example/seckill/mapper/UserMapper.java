@@ -1,7 +1,7 @@
-package com.example.seckill.controller.mapper;
+package com.example.seckill.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.seckill.controller.pojo.User;
+import com.example.seckill.pojo.User;
 
 /**
  * <p>
