@@ -1,40 +1,61 @@
 spring:
-  # thymleaf??
+  # thymleaf配置
   thymeleaf:
-    # ????
+    # 关闭缓存
     cache: false
-    # ?????
+    # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 111111
-
-    #hikari:
+    hikari:
       # ????
-      #pool-name:  DateHikariCP
+      pool-name:  DateHikariCP
       # ???????
-      #minimum-idle: 5
+      minimum-idle: 5
       # ???????????????10min
-      #idle-timeout: 18000
+      idle-timeout: 18000
       # ????????10
-      #maximum-pool-size: 10
+      maximum-pool-size: 10
       # ?????????????
-      #auto-commit: true
+      auto-commit: true
       # ???????????30??
-      #max-lifetime: 1800000
+      max-lifetime: 1800000
       # ?????????30s
-      #connection-timeout: 30000
+      connection-timeout: 30000
       # ????????????
-      #connection-test-query: SELECT 1
+      connection-test-query: SELECT 1
+
+  #redis配置
+  redis:
+    #服务器地址
+    host: 192.168.93.128
+    #端口
+    port: 6379
+    #数据库
+    database: 0
+    #连接超时时间
+    timeout: 10000ms
+    lettuce:
+      pool:
+        #最大连接数，默认8
+        max-active: 8
+        #最大等待时间，或者叫最大链接阻塞等待时间，默认-1
+        max-wait: 10000ms
+        #最大空闲连接，默认8
+        max-idle: 200
+        #最小空闲连接，默认0
+        min-idle: 5
 
 #Mybatis-plus??
-#mybatis-plus:
-  #??mapper.xml????
-  #mapper-locations: classpath*:/mapper/*Mapper.xml
-  #type-aliases-package: com.example.seckill.pojo
+mybatis-plus:
+  #配置mapper.xml映射文件
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  #配置MyBatis数据返回类型别名（默认别名是类名）
+  type-aliases-package: com.example.seckill.pojo
 
-# Mybatis SQL??????????????Mapper.xml?????
+# Mybatis SQL打印（方法接口所在的包，不是Mapper.xml所在的包）
 logging:
   level:
     com.example.seckill.mapper: debug
