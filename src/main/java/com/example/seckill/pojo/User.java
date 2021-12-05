@@ -12,7 +12,7 @@ import java.util.Date;
  * 
  * </p>
  *
- * @author zhoubin
+ * @author tantan
  * @since 2021-12-05
  */
 @Data
@@ -34,7 +34,7 @@ public class User implements Serializable {
      */
     private String password;
 
-    private String slat;
+    private String salt;
 
     /**
      * 头像
@@ -56,8 +56,5 @@ public class User implements Serializable {
      */
     private Integer loginCount;
 
-    public String getSalt() {
-        return slat;
-    }
 
 }

@@ -5,12 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @Author:yeqiuhan
- * @Date:2021-12-0512:20
  * 公共返回对象
  */
 @Data
+// 无参构造
 @NoArgsConstructor
+// 全参构造
 @AllArgsConstructor
 public class RespBean {
 
@@ -25,6 +25,11 @@ public class RespBean {
     public static RespBean success(Object obj){
         return new RespBean(RespBeanEnum.SUCCESS.getCode(),RespBeanEnum.SUCCESS.getMessage(),obj);
     }
+    /**
+     * 功能描述
+     * @author tt
+     * @return com.example.seckill.vo.RespBean
+     */
     //返回失败结果
     public static RespBean error(RespBeanEnum respBeanEnum){
         return new RespBean(respBeanEnum.getCode(),respBeanEnum.getMessage(),null);

@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.security.AuthProvider;
 
 /**
- * @Author:yeqiuhan
- * @Date:2021-12-0512:00
+ * 登录
+ *
  */
 @Controller
 @RequestMapping("/login")
@@ -24,21 +25,22 @@ public class LoginController {
     @Autowired
     private IUserService userService;
 
-    /*
+    /**
     跳转登陆页面
      */
+
     @RequestMapping("/toLogin")
     public String toLogin(){
         return "login";
     }
+
     /**
      * 登录
-     * @return
      */
 
     @RequestMapping("/doLogin")
     @ResponseBody
-    public RespBean doLogin(LoginVo loginVo) {
+    public RespBean doLogin(@Valid LoginVo loginVo) {
         //因为Slf4j注解
         //log.info("{}",loginVo);
         log.info(loginVo.toString());

@@ -6,34 +6,35 @@ spring:
     # ?????
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost::3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
-    password: 010418
-    hikari:
+    password: 111111
+
+    #hikari:
       # ????
-      pool-name:  DateHikariCP
+      #pool-name:  DateHikariCP
       # ???????
-      minimum-idle: 5
+      #minimum-idle: 5
       # ???????????????10min
-      idle-timeout: 18000
+      #idle-timeout: 18000
       # ????????10
-      maximum-pool-size: 10
+      #maximum-pool-size: 10
       # ?????????????
-      auto-commit: true
+      #auto-commit: true
       # ???????????30??
-      max-lifetime: 1800000
+      #max-lifetime: 1800000
       # ?????????30s
-      connection-timeout: 30000
+      #connection-timeout: 30000
       # ????????????
-      connection-test-query: SELECT 1
+      #connection-test-query: SELECT 1
+
 #Mybatis-plus??
-mybatis-plus:
+#mybatis-plus:
   #??mapper.xml????
-  mapper-locations: classpath*:/mapper/*Mapper.xml
-  type-aliases-package: com.example.seckill.pojo
+  #mapper-locations: classpath*:/mapper/*Mapper.xml
+  #type-aliases-package: com.example.seckill.pojo
 
 # Mybatis SQL??????????????Mapper.xml?????
 logging:
   level:
-    com.xxxx.seckill.mapper: debug
-
+    com.example.seckill.mapper: debug
