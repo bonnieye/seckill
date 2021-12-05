@@ -19,11 +19,11 @@ public class RespBean {
     private Object obj;
     //返回成功结果
     public static RespBean success(){
-        return new RespBean(RespBeanEnum.SUCCESS.getCode(),RespBean.success().getMessage(),null);
+        return new RespBean(RespBeanEnum.SUCCESS.getCode(),RespBeanEnum.SUCCESS.getMessage(),null);
     }
 
     public static RespBean success(Object obj){
-        return new RespBean(RespBeanEnum.SUCCESS.getCode(),RespBean.success().getMessage(),obj);
+        return new RespBean(RespBeanEnum.SUCCESS.getCode(),RespBeanEnum.SUCCESS.getMessage(),obj);
     }
     //返回失败结果
     public static RespBean error(RespBeanEnum respBeanEnum){

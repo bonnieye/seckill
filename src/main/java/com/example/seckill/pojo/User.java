@@ -56,5 +56,8 @@ public class User implements Serializable {
      */
     private Integer loginCount;
 
+    public String getSalt() {
+        return slat;
+    }
 
 }
