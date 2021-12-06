@@ -28,7 +28,7 @@ public class GoodsController {
      * 跳转登录页
      */
     @RequestMapping("/toList")
-    public String toLogin( Model model, User user) {
+    public String toLogin(HttpServletRequest request, HttpServletResponse response, Model model, @CookieValue("userTicket") String ticket) {
         /**
          * 跳转到商品列表页
          */
@@ -39,10 +39,10 @@ public class GoodsController {
 //        if (null == user) {
 //            return "login";
 //        }
-//        User user = userService.getUserByCookie(ticket,request,response);
-//                if (null == user) {
-//            return "login";
-//        }
+        User user = userService.getUserByCookie(ticket,request,response);
+                if (null == user) {
+            return "login";
+        }
         model.addAttribute("user", user);
         return "goodsList";
     }
