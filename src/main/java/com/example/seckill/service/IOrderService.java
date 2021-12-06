@@ -6,7 +6,7 @@ import com.example.seckill.pojo.User;
 import com.example.seckill.vo.GoodsVo;
 
 /**
- *  服务类
+ * 服务类
  *
  * @author tantan
  * @since 2021-12-06

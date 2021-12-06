@@ -22,8 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/seckill")
-public class SecKillController {
-
+public class SeckillController {
     @Autowired
     private IGoodsService goodsService;
     @Autowired
@@ -40,28 +39,29 @@ public class SecKillController {
      */
     @RequestMapping("/doSeckill")
     public String doSeckill(Model model, User user, Long goodsId) {
-        // 未登录，不允许进行秒杀
         if (user == null) {
             return "login";
         }
         model.addAttribute("user", user);
-        // 判断真实库存
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
-        // 库存不足
+        //判断库存
         if (goods.getStockCount() < 1) {
             model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
-            return "secKillFail";
+            return "seckillFail";
         }
-        // 判断是否重复抢购
-        SeckillOrder seckillOrder = seckillOrderService.getOne(new QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
+        //判断是否重复抢购
+        SeckillOrder seckillOrder = seckillOrderService.getOne(new
+                QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq(
+                "goods_id",
+                goodsId));
         if (seckillOrder != null) {
             model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
-            return "secKillFail";
+            return "seckillFail";
         }
         Order order = orderService.seckill(user, goods);
         model.addAttribute("order", order);
         model.addAttribute("goods", goods);
         return "orderDetail";
     }
-
 }
+

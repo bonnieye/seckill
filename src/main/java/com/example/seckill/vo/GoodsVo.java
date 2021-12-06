@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * @Author:yeqiuhan
- * @Date:2021-12-0610:15
+ * @Author: yeqiuhan
+ * @Date: 2021-12-0610:15
  * 商品返回对象
  */
 @Data

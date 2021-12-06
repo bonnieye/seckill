@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.seckill.pojo.Order;
 
 /**
- * <p>
  *  Mapper 接口
- * </p>
- *
- * @author zhoubin
+ * @author tantan
  * @since 2021-12-06
  */
+
 public interface OrderMapper extends BaseMapper<Order> {
 
+    int insert(Order order);
 }
