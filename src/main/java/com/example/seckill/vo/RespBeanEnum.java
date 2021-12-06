@@ -11,14 +11,17 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 public enum RespBeanEnum {
-    //通用
+    // 通用
     SUCCESS(200,"SUCCESS"),
     ERROR(500,"服务端异常"),
-    //登录模块5002xx
+    // 登录模块5002xx
     SESSION_ERROR(500210,"session不存在或者已经失效"),
     LOGINVO_ERROR(500211,"用户名或者密码错误"),
     MOBILE_ERROR(500212,"手机号码格式错误"),
-    BIND_ERROR(500213,"参数校验异常")
+    BIND_ERROR(500213,"参数校验异常"),
+    // 秒杀模块5005xx
+    EMPTY_STOCK(500500,"库存不足"),
+    REPEATE_ERROR(500501,"该商品每人限购一件"),
     ;
     private final Integer code;     // 状态码
     private final String message;   // 相应信息

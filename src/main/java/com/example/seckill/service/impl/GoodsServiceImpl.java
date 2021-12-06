@@ -26,10 +26,20 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     private GoodsMapper goodsMapper;
     /**
      * 获取商品列表
-     * @return
      */
     @Override
     public List<GoodsVo> findGoodsVo() {
         return goodsMapper.findGoodsVo();
+    }
+
+    /**
+     * 功能描述 获取商品详情
+     * @author tt
+     * @date 2021/12/6
+     * @return java.lang.String
+     */
+    @Override
+    public GoodsVo findGoodsVoByGoodsId(Long goodsId){
+        return goodsMapper.findGoodsVoByGoodsId(goodsId);
     }
 }
