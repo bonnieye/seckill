@@ -1,5 +1,6 @@
 package com.example.seckill.controller;
 import com.example.seckill.pojo.User;
+import com.example.seckill.service.IGoodsService;
 import com.example.seckill.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class GoodsController {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IGoodsService goodsService;
     /**
      * 跳转登录页
      */
@@ -44,6 +47,7 @@ public class GoodsController {
             return "login";
         }
         model.addAttribute("user", user);
+        model.addAttribute("goodsList", goodsService.findGoodsVo());
         return "goodsList";
     }
 }
