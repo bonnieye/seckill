@@ -13,6 +13,11 @@ import com.example.seckill.vo.GoodsVo;
  */
 
 public interface IOrderService extends IService<Order> {
-
-    Order seckill(User user, GoodsVo goods);
+    /**
+     * 秒杀
+     * @param user
+     * @param goods
+     * @return
+     */
+    Order seckill(User user, GoodsVo goods,Long userid);
 }

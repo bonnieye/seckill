@@ -21,5 +21,12 @@
     <sql id="Base_Column_List">
         id, user_id, goods_id, delivery_addr_id, goods_name, goods_count, goods_price, order_channel, status, create_date, pay_date
     </sql>
+    <!-- insert订单-->
 
+<!--    <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.example.seckill.pojo.Order">-->
+<!--        insert into-->
+<!--            t_order(user_id,goods_id,delivery_addr_id,goods_name,goods_count,goods_price,order_channel,status,create_date)-->
+<!--        values-->
+<!--            (#{user_id},#{goods_id},#{delivery_addr_id},#{goods_name},#{goods_count},#{goods_price},#{order_channel},#{status},#{create_date});-->
+<!--    </insert>-->
 </mapper>

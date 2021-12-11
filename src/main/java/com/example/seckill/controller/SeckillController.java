@@ -38,29 +38,32 @@ public class SeckillController {
      * @date 2021/12/6
      */
     @RequestMapping("/doSeckill")
-    public String doSeckill(Model model, User user, Long goodsId) {
+    public String doSeckill(Model model, User user, Long goodsId,Long userid) {
         if (user == null) {
             return "login";
         }
         model.addAttribute("user", user);
+        System.out.println("/doSeckill");
+        System.out.println(userid);
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
         //判断库存
         if (goods.getStockCount() < 1) {
             model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
-            return "seckillFail";
+            return "secKillFail";
         }
-        //判断是否重复抢购
+        //判断是否重复抢购 mybatis plus
         SeckillOrder seckillOrder = seckillOrderService.getOne(new
                 QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq(
                 "goods_id",
                 goodsId));
         if (seckillOrder != null) {
             model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
-            return "seckillFail";
+            return "secKillFail";
         }
-        Order order = orderService.seckill(user, goods);
+        Order order = orderService.seckill(user, goods,userid);
         model.addAttribute("order", order);
         model.addAttribute("goods", goods);
+        model.addAttribute("userid", userid);
         return "orderDetail";
     }
 }

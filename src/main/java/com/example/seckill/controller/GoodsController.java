@@ -48,6 +48,8 @@ public class GoodsController {
 //            return "login";
 //        }
         User user = userService.getUserByCookie(ticket, request, response);
+        System.out.print("使用");
+        System.out.print(user.getId());
         if (null == user) {
             return "login";
         }
@@ -63,9 +65,14 @@ public class GoodsController {
      * @author tt
      * @date 2021/12/6
      */
-    @RequestMapping("/toDetail/{goodsId}")
-    public String toDetail(Model model, User user, @PathVariable Long goodsId) {
+    @RequestMapping("/toDetail/{goodsId}/{userid}")
+    //这里跳转详情页不知道咋办user过不来，要不直接前端传个id过来算了
+    public String toDetail(Model model,User user, @PathVariable Long goodsId,@PathVariable Long userid) {
+        System.out.print("使用111");
+        System.out.print(userid);
         model.addAttribute("user", user);
+        System.out.print("使用222");
+        System.out.print(user.getId());
         GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
         Date startDate = goodsVo.getStartDate();
         Date endDate = goodsVo.getEndDate();
@@ -90,6 +97,7 @@ public class GoodsController {
         model.addAttribute("remainSeconds", remainSeconds);
         model.addAttribute("secKillStatus", secKillStatus);
         model.addAttribute("goods", goodsVo);
+        model.addAttribute("userid", userid);
         return "goodsDetail";
     }
 }
