@@ -70,20 +70,19 @@
     });
 
     function getDetails() {
-        var goodsId
-        g_getQueryString("goodsId");
+        var goodsId = g_getQueryString("goodsId");
         $.ajax({
             url: '/goods/detail/' + goodsId,
             type: 'GET',
             success: function (data) {
-                if (data.code == 200) {
+                if (data.code === 200) {
                     render(data.obj);
                 } else {
-                    layer.msg("客户端请求出错");
+                    layer.msg("客户端请求出错1: " + data.code);
                 }
             },
             error: function () {
-                layer.msg("客户端请求出错");
+                layer.msg("客户端请求出错2");
             }
         })
     }

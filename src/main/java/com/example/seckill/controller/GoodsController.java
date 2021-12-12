@@ -147,10 +147,10 @@ public class GoodsController {
      * @author tt
      * @date 2021/12/12
      */
-    @RequestMapping("/detail/{goodsId}/{userid}")
+    @RequestMapping("/detail/{goodsId}")
     //跳转详情页user传不过来
     @ResponseBody
-    public RespBean toDetail(User user, @PathVariable Long goodsId, @PathVariable Long userid) {
+    public RespBean toDetail(User user, @PathVariable Long goodsId) {
         GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
         Date startDate = goodsVo.getStartDate();
         Date endDate = goodsVo.getEndDate();
