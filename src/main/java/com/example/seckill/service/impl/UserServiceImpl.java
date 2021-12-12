@@ -51,14 +51,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new GlobalException(RespBeanEnum.LOGINVO_ERROR);
         }
         //校验密码
-        if
-        (!MD5Util.formPassToDBPass(password, user.getSalt()).equals(user.getPassword())) {
+        if (!MD5Util.formPassToDBPass(password, user.getSalt()).equals(user.getPassword())) {
             throw new GlobalException(RespBeanEnum.LOGINVO_ERROR);
         }
         //生成cookie
         String ticket = UUIDUtil.uuid();
         //将用户信息存入redis中
-        redisTemplate.opsForValue().set("user" + ticket, user);
+        redisTemplate.opsForValue().set("user:" + ticket, user);
         //P16方法
         //request.getSession().setAttribute(ticket,user);
         CookieUtil.setCookie(request, response, "userTicket", ticket);
@@ -71,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (StringUtils.isEmpty(userTicket)) {
             return null;
         }
-        User user = (User) redisTemplate.opsForValue().get("user" + userTicket);
+        User user = (User) redisTemplate.opsForValue().get("user:" + userTicket);
         if (user != null) {
             CookieUtil.setCookie(request, response, "userTicket", userTicket);
         }
@@ -80,25 +79,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     /**
      * 更新密码
-     * @author tt
-     * @date 2021/12/12
+     *
      * @param [userTicket, password, request, response]
      * @return RespBean
-     */
+     * @author tt
+     * @date 2021/12/12
     @Override
     public RespBean updatePassword(String userTicket, String password, HttpServletRequest request, HttpServletResponse response) {
         User user = getUserByCookie(userTicket, request, response);
-        if(user==null){
+        if (user == null) {
             throw new GlobalException(RespBeanEnum.MOBILE_NOT_EXIST);
         }
-        user.setPassword(MD5Util.inputPassToDBPass(password,user.getSalt()));
+        user.setPassword(MD5Util.inputPassToDBPass(password, user.getSalt()));
         int result = userMapper.updateById(user);
-        if(1==result){
+        if (1 == result) {
             // 删除Redis
-            redisTemplate.delete("user:"+userTicket);
+            redisTemplate.delete("user:" + userTicket);
             return RespBean.success();
         }
         return RespBean.error(RespBeanEnum.PASSWORD_UPDATE_FAIL);
-    }
+    }*/
 }
 

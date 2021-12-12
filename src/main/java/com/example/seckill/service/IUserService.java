@@ -25,8 +25,6 @@ public interface IUserService extends IService<User> {
 
     /**
      * 根据cookie获取用户
-     *
-     * @param userTicket
      */
     User getUserByCookie(String userTicket, HttpServletRequest request, HttpServletResponse response);
 
@@ -36,6 +34,6 @@ public interface IUserService extends IService<User> {
      * @date 2021/12/12
      * @param [userTicket, password, request, response]
      * @return RespBean
-     */
-    RespBean updatePassword(String userTicket, String password, HttpServletRequest request, HttpServletResponse response);
+
+    RespBean updatePassword(String userTicket, String password, HttpServletRequest request, HttpServletResponse response);*/
 }
