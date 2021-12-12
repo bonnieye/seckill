@@ -5,18 +5,26 @@ import com.example.seckill.service.IGoodsService;
 import com.example.seckill.service.IUserService;
 import com.example.seckill.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.support.WebContentGenerator;
+import org.thymeleaf.Thymeleaf;
+import org.thymeleaf.context.WebContext;
+import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.crypto.Data;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author yeqiuhan
@@ -31,11 +39,16 @@ public class GoodsController {
     private IUserService userService;
     @Autowired
     private IGoodsService goodsService;
+    @Autowired
+    private RedisTemplate redisTemplate;
+    @Autowired
+    private ThymeleafViewResolver thymeleafViewResolver;
 
     /**
      * 跳转登录页
      */
-    @RequestMapping("/toList")
+    @RequestMapping(value = "/toList", produces = "text/html;charset=utf-8")
+    @ResponseBody
     public String toLogin(HttpServletRequest request, HttpServletResponse response, Model model, @CookieValue("userTicket") String ticket) {
         /**
          * 跳转到商品列表页
@@ -47,6 +60,12 @@ public class GoodsController {
 //        if (null == user) {
 //            return "login";
 //        }
+        // Redis中获取页面，如果不为空，直接返回页面
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        String html = (String) valueOperations.get("goodsList");
+        if (!StringUtils.isEmpty(html)) {
+            return html;
+        }
         User user = userService.getUserByCookie(ticket, request, response);
         System.out.print("使用");
         System.out.print(user.getId());
@@ -55,20 +74,38 @@ public class GoodsController {
         }
         model.addAttribute("user", user);
         model.addAttribute("goodsList", goodsService.findGoodsVo());
-        return "goodsList";
+        // return "goodsList";
+        // 如果为空，手动渲染，存入Redis并且返回
+        // map是想放在thymeleaf中的数据，把model转成map
+        WebContext context = new WebContext(request, response, request.getServletContext(), request.getLocale(),
+                model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goodsList", context);
+        if (!StringUtils.isEmpty(html)) {
+            // 加一个失效时间
+            valueOperations.set("goodsList", html, 60, TimeUnit.SECONDS);
+        }
+        return html;
     }
 
     /**
-     * 功能描述
+     * 功能描述 跳转商品详情页
      *
      * @return java.lang.String
      * @author tt
      * @date 2021/12/6
      */
-    @RequestMapping("/toDetail/{goodsId}/{userid}")
+    @RequestMapping(value = "/toDetail/{goodsId}/{userid}", produces = "text/html;charset=utf-8")
     //这里跳转详情页不知道咋办user过不来，要不直接前端传个id过来算了
-    public String toDetail(Model model,User user, @PathVariable Long goodsId,@PathVariable Long userid) {
+    @ResponseBody
+    public String toDetail(Model model, User user, @PathVariable Long goodsId, @PathVariable Long userid,
+                           HttpServletResponse response, HttpServletRequest request) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        // Redis中获取页面，如果不为空，直接返回页面
+        String html = (String) valueOperations.get("goodsDetail:" + goodsId + userid);
         System.out.print("使用111");
+        if (!StringUtils.isEmpty(html)) {
+            return html;
+        }
         System.out.print(userid);
         model.addAttribute("user", user);
         System.out.print("使用222");
@@ -98,7 +135,16 @@ public class GoodsController {
         model.addAttribute("secKillStatus", secKillStatus);
         model.addAttribute("goods", goodsVo);
         model.addAttribute("userid", userid);
-        return "goodsDetail";
+        // return "goodsDetail";
+        // 如果为空，手动渲染，存入Redis并且返回
+        // map是想放在thymeleaf中的数据，把model转成map
+        WebContext context = new WebContext(request, response, request.getServletContext(), request.getLocale(),
+                model.asMap());
+        html = thymeleafViewResolver.getTemplateEngine().process("goodsDetail", context);
+        if (!StringUtils.isEmpty(html)) {
+            valueOperations.set("goodsDetail:" + goodsId + userid, html, 60, TimeUnit.SECONDS);
+        }
+        return html;
     }
 }
 
