@@ -20,7 +20,7 @@ public interface IOrderService extends IService<Order> {
      * @param goods
      * @return
      */
-    Order seckill(User user, GoodsVo goods,Long userid);
+    Order seckill(User user, GoodsVo goods);
 
     /**
      * 功能描述 订单详情

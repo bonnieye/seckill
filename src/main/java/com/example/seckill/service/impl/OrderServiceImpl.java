@@ -51,16 +51,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
 
     @Override
     @Transactional
-    public Order seckill(User user, GoodsVo goods,Long userid) {
+    public Order seckill(User user, GoodsVo goods) {
         // 秒杀商品表库存-1
         SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().eq("goods_id", goods.getId()));
         seckillGoods.setStockCount(seckillGoods.getStockCount()-1);
         seckillGoodsService.updateById(seckillGoods);
         // 生成订单
-        //Long uuid = user.getId();
-
         Order order = new Order();
-        order.setUserId(userid);
+        order.setUserId(user.getId());
         order.setGoodsId(goods.getId());
         order.setDeliveryAddrId(0L);
         order.setGoodsName(goods.getGoodsName());
@@ -74,7 +72,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         // 生成秒杀订单
         SeckillOrder seckillOrder = new SeckillOrder();
         seckillOrder.setOrderId(order.getId());
-        seckillOrder.setUserId(userid);
+        seckillOrder.setUserId(user.getId());
         seckillOrder.setGoodsId(goods.getId());
         seckillOrderService.save(seckillOrder);
         return order;

@@ -41,7 +41,7 @@ public class SeckillController {
      * @date 2021/12/6
      */
     @RequestMapping("/doSeckill2")
-    public String doSeckill2(Model model, User user, Long goodsId, Long userid) {
+    public String doSeckill2(Model model, User user, Long goodsId) {
         if (user == null) {
             return "login";
         }
@@ -61,10 +61,9 @@ public class SeckillController {
             model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
             return "secKillFail";
         }
-        Order order = orderService.seckill(user, goods, userid);
+        Order order = orderService.seckill(user, goods);
         model.addAttribute("order", order);
         model.addAttribute("goods", goods);
-        model.addAttribute("userid", userid);
         return "orderDetail";
     }
 
@@ -77,7 +76,7 @@ public class SeckillController {
      */
     @RequestMapping(value = "/doSeckill", method = RequestMethod.POST)
     @ResponseBody
-    public RespBean doSeckill(Model model, User user, Long goodsId, Long userid) {
+    public RespBean doSeckill(Model model, User user, Long goodsId) {
         if (user == null) {
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
@@ -94,7 +93,7 @@ public class SeckillController {
             model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
             return RespBean.error(RespBeanEnum.REPEATE_ERROR);
         }
-        Order order = orderService.seckill(user, goods, userid);
+        Order order = orderService.seckill(user, goods);
         return RespBean.success(order);
     }
 }
