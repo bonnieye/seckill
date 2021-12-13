@@ -6,10 +6,7 @@ import com.example.seckill.exception.GlobalException;
 import com.example.seckill.mapper.UserMapper;
 import com.example.seckill.service.IUserService;
 import com.example.seckill.pojo.User;
-import com.example.seckill.utils.CookieUtil;
-import com.example.seckill.utils.MD5Util;
-import com.example.seckill.utils.UUIDUtil;
-import com.example.seckill.utils.ValidatorUtil;
+import com.example.seckill.utils.*;
 import com.example.seckill.vo.LoginVo;
 import com.example.seckill.vo.RespBean;
 import com.example.seckill.vo.RespBeanEnum;
@@ -54,6 +51,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!MD5Util.formPassToDBPass(password, user.getSalt()).equals(user.getPassword())) {
             throw new GlobalException(RespBeanEnum.LOGINVO_ERROR);
         }
+        //String uuid = userService.getUuid();
         //生成cookie
         String ticket = UUIDUtil.uuid();
         //将用户信息存入redis中
@@ -61,7 +59,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //P16方法
         //request.getSession().setAttribute(ticket,user);
         CookieUtil.setCookie(request, response, "userTicket", ticket);
-        return RespBean.success();
+        return RespBean.success(ticket);
     }
 
     // 根据cookie获取用户
@@ -70,6 +68,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (StringUtils.isEmpty(userTicket)) {
             return null;
         }
+        //String userJson = (String) redisTemplate.opsForValue().get("user:" + userTicket);
+        //User user = JsonUtil.jsonStr2Object(userJson, User.class);
         User user = (User) redisTemplate.opsForValue().get("user:" + userTicket);
         if (user != null) {
             CookieUtil.setCookie(request, response, "userTicket", userTicket);
