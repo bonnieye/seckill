@@ -11,6 +11,7 @@ import com.example.seckill.vo.GoodsVo;
 import com.example.seckill.vo.RespBean;
 import com.example.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,8 @@ public class SeckillController {
     private ISeckillOrderService seckillOrderService;
     @Autowired
     private IOrderService orderService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     /**
      * 秒杀2
@@ -83,14 +86,15 @@ public class SeckillController {
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
         //判断库存
         if (goods.getStockCount() < 1) {
-            model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
+            //model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
             return RespBean.error(RespBeanEnum.EMPTY_STOCK);
         }
         //判断是否重复抢购 mybatis plus
-        SeckillOrder seckillOrder = seckillOrderService.getOne(new
-                QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
+        //SeckillOrder seckillOrder = seckillOrderService.getOne(new
+        //        QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
+        SeckillOrder seckillOrder = (SeckillOrder) redisTemplate.opsForValue().get("order:" + user.getId() + ":" + goodsId);
         if (seckillOrder != null) {
-            model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
+            //model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
             return RespBean.error(RespBeanEnum.REPEATE_ERROR);
         }
         Order order = orderService.seckill(user, goods);
