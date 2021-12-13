@@ -24,6 +24,8 @@ public enum RespBeanEnum {
     // 秒杀模块5005xx
     EMPTY_STOCK(500500, "库存不足"),
     REPEATE_ERROR(500501, "该商品每人限购一件"),
+    // 订单模块5003xx
+    ORDER_NOT_EXIST(500300, "订单信息不存在"),
     ;
     private final Integer code;     // 状态码
     private final String message;   // 相应信息

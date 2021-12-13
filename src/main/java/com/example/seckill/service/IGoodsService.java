@@ -7,7 +7,7 @@ import com.example.seckill.vo.GoodsVo;
 import java.util.List;
 
 /**
- *  服务类
+ * 服务类
  *
  * @author tt
  * @date 2021-12-06
@@ -18,5 +18,8 @@ public interface IGoodsService extends IService<Goods> {
      */
     List<GoodsVo> findGoodsVo();
 
+    /**
+     * 获取商品详情
+     */
     GoodsVo findGoodsVoByGoodsId(Long goodsId);
 }
