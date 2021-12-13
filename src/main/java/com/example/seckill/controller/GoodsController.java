@@ -98,7 +98,7 @@ public class GoodsController {
         ValueOperations valueOperations = redisTemplate.opsForValue();
         // Redis中获取页面，如果不为空，直接返回页面
         String html = (String) valueOperations.get("goodsDetail:" + goodsId + userid);
-        System.out.print("使用111");
+        //System.out.print("使用111");
         if (!StringUtils.isEmpty(html)) {
             return html;
         }
@@ -147,10 +147,10 @@ public class GoodsController {
      * @author tt
      * @date 2021/12/12
      */
-    @RequestMapping("/detail/{goodsId}")
+    @RequestMapping("/detail/{goodsId}/{userid}")
     //跳转详情页user传不过来
     @ResponseBody
-    public RespBean toDetail(User user, @PathVariable Long goodsId) {
+    public RespBean toDetail(User user, @PathVariable Long goodsId,@PathVariable Long userid) {
         GoodsVo goodsVo = goodsService.findGoodsVoByGoodsId(goodsId);
         Date startDate = goodsVo.getStartDate();
         Date endDate = goodsVo.getEndDate();
@@ -174,6 +174,7 @@ public class GoodsController {
         }
         DetailVo detailVo = new DetailVo();
         detailVo.setUser(user);
+        detailVo.setUserid(userid);
         detailVo.setGoodsVo(goodsVo);
         detailVo.setSecKillStatus(secKillStatus);
         detailVo.setRemainSeconds(remainSeconds);

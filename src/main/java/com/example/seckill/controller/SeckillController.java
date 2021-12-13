@@ -8,14 +8,11 @@ import com.example.seckill.service.IGoodsService;
 import com.example.seckill.service.IOrderService;
 import com.example.seckill.service.ISeckillOrderService;
 import com.example.seckill.vo.GoodsVo;
-import com.example.seckill.vo.RespBean;
 import com.example.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @description: 秒杀
@@ -34,18 +31,20 @@ public class SeckillController {
     private IOrderService orderService;
 
     /**
-     * 秒杀2
+     * 功能描述 秒杀
      *
      * @return java.lang.String
      * @author tt
      * @date 2021/12/6
      */
-    @RequestMapping("/doSeckill2")
-    public String doSeckill2(Model model, User user, Long goodsId, Long userid) {
+    @RequestMapping("/doSeckill")
+    public String doSeckill(Model model, User user, Long goodsId,Long userid) {
         if (user == null) {
             return "login";
         }
         model.addAttribute("user", user);
+//        System.out.println("/doSeckill");
+//        System.out.println(userid);
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
         //判断库存
         if (goods.getStockCount() < 1) {
@@ -61,41 +60,11 @@ public class SeckillController {
             model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
             return "secKillFail";
         }
-        Order order = orderService.seckill(user, goods, userid);
+        Order order = orderService.seckill(user, goods,userid);
         model.addAttribute("order", order);
         model.addAttribute("goods", goods);
         model.addAttribute("userid", userid);
         return "orderDetail";
-    }
-
-    /**
-     * 秒杀
-     *
-     * @return java.lang.String
-     * @author tt
-     * @date 2021/12/13
-     */
-    @RequestMapping(value = "/doSeckill", method = RequestMethod.POST)
-    @ResponseBody
-    public RespBean doSeckill(Model model, User user, Long goodsId, Long userid) {
-        if (user == null) {
-            return RespBean.error(RespBeanEnum.SESSION_ERROR);
-        }
-        GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
-        //判断库存
-        if (goods.getStockCount() < 1) {
-            model.addAttribute("errmsg", RespBeanEnum.EMPTY_STOCK.getMessage());
-            return RespBean.error(RespBeanEnum.EMPTY_STOCK);
-        }
-        //判断是否重复抢购 mybatis plus
-        SeckillOrder seckillOrder = seckillOrderService.getOne(new
-                QueryWrapper<SeckillOrder>().eq("user_id", user.getId()).eq("goods_id", goodsId));
-        if (seckillOrder != null) {
-            model.addAttribute("errmsg", RespBeanEnum.REPEATE_ERROR.getMessage());
-            return RespBean.error(RespBeanEnum.REPEATE_ERROR);
-        }
-        Order order = orderService.seckill(user, goods, userid);
-        return RespBean.success(order);
     }
 }
 
