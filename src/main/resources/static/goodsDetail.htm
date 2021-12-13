@@ -45,6 +45,7 @@
                 <form id="seckillForm" method="post" action="/seckill/doSeckill/">
                     <button class="btn btn-primary btn-block" type="submit" id="buyButton">立即秒杀</button>
                     <input type="hidden" name="goodsId" id="goodsId">
+                    <input type="hidden" name="userid" id="userid">
                 </form>
             </td>
         </tr>
@@ -71,8 +72,9 @@
 
     function getDetails() {
         var goodsId = g_getQueryString("goodsId");
+        var userid = g_getQueryString("userid");
         $.ajax({
-            url: '/goods/detail/' + goodsId,
+            url: '/goods/detail/' + goodsId +'/'+ userid,
             type: 'GET',
             success: function (data) {
                 if (data.code === 200) {
@@ -99,6 +101,7 @@
         $("#startTime").text(new Date(goods.startDate).format("yyyy-MM-dd HH:mm:ss"));
         $("#remainSeconds").val(remainSeconds);
         $("#goodsId").val(goods.id);
+        $("#userid").val(detail.userid);
         $("#goodsPrice").text(goods.goodsPrice);
         $("#seckillPrice").text(goods.seckillPrice);
         $("#stockCount").text(goods.stockCount);

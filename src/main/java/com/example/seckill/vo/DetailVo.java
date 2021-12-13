@@ -17,6 +17,8 @@ public class DetailVo {
 
     private User user;
 
+    private Long userid;
+
     private GoodsVo goodsVo;
 
     private int secKillStatus;

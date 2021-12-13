@@ -43,8 +43,8 @@ public class SeckillController {
             return "login";
         }
         model.addAttribute("user", user);
-        System.out.println("/doSeckill");
-        System.out.println(userid);
+//        System.out.println("/doSeckill");
+//        System.out.println(userid);
         GoodsVo goods = goodsService.findGoodsVoByGoodsId(goodsId);
         //判断库存
         if (goods.getStockCount() < 1) {
