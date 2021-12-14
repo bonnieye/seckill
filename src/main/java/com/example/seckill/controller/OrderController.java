@@ -27,13 +27,14 @@ public class OrderController {
 
     /**
      * 订单详情
+     *
      * @return com.example.seckill.vo.RespBean
      * @author tt
      * @date 2021/12/13
      */
     @RequestMapping("/detail")
     @ResponseBody
-    public RespBean detai(User user, Long orderId) {
+    public RespBean detail(User user, Long orderId) {
         if (user == null) {
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }

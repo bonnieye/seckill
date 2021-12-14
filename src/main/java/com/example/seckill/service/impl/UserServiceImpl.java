@@ -51,12 +51,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (!MD5Util.formPassToDBPass(password, user.getSalt()).equals(user.getPassword())) {
             throw new GlobalException(RespBeanEnum.LOGINVO_ERROR);
         }
-        //String uuid = userService.getUuid();
         //生成cookie
         String ticket = UUIDUtil.uuid();
         //将用户信息存入redis中
         redisTemplate.opsForValue().set("user:" + ticket, user);
-        //P16方法
         //request.getSession().setAttribute(ticket,user);
         CookieUtil.setCookie(request, response, "userTicket", ticket);
         return RespBean.success(ticket);

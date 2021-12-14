@@ -6,11 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.stereotype.Controller;
 
 /**
- * <p>
- *  前端控制器
- * </p>
+ * 前端控制器
  *
- * @author zhoubin
+ * @author tt
  * @since 2021-12-06
  */
 @Controller

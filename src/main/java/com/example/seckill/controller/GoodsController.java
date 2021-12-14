@@ -58,7 +58,7 @@ public class GoodsController {
 //        if (null == user) {
 //            return "login";
 //        }
-        // Redis中获取页面，如果不为空，直接返回页面
+        // 尝试从Redis中获取页面，如果不为空，直接返回页面
         ValueOperations valueOperations = redisTemplate.opsForValue();
         String html = (String) valueOperations.get("goodsList");
         if (!StringUtils.isEmpty(html)) {
@@ -70,7 +70,6 @@ public class GoodsController {
         }
         model.addAttribute("user", user);
         model.addAttribute("goodsList", goodsService.findGoodsVo());
-        // return "goodsList";
         // 如果为空，手动渲染，存入Redis并且返回
         // map是想放在thymeleaf中的数据，把model转成map
         WebContext context = new WebContext(request, response, request.getServletContext(), request.getLocale(),

@@ -72,7 +72,6 @@ public class SeckillController {
 
     /**
      * 秒杀
-     *
      * @return java.lang.String
      * @author tt
      * @date 2021/12/13
