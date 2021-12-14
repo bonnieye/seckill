@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.seckill.exception.GlobalException;
 import com.example.seckill.mapper.OrderMapper;
+import com.example.seckill.mapper.SeckillOrderMapper;
 import com.example.seckill.pojo.Order;
 import com.example.seckill.pojo.SeckillGoods;
 import com.example.seckill.pojo.SeckillOrder;
@@ -18,6 +19,7 @@ import com.example.seckill.vo.OrderDetailVo;
 import com.example.seckill.vo.RespBeanEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +40,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Resource
     @Autowired
     private OrderMapper orderMapper;
+//    @Autowired
+//    private SeckillOrderMapper seckillOrderMapper;
     @Autowired
     private ISeckillOrderService seckillOrderService;
     @Autowired
@@ -56,6 +60,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     @Transactional
     public Order seckill(User user, GoodsVo goods) {
+        ValueOperations valueOperations = redisTemplate.opsForValue();
         // 秒杀商品表库存-1
         SeckillGoods seckillGoods = seckillGoodsService.getOne(new QueryWrapper<SeckillGoods>().
                 eq("goods_id", goods.getId()));
@@ -65,7 +70,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         //        .eq("id", seckillGoods.getId()).gt("stock_count", 0));
         boolean result = seckillGoodsService.update(new UpdateWrapper<SeckillGoods>().setSql("stock_count=stock_count-1").
                 eq("goods_id", goods.getId()).gt("stock_count",0));
-        if (!result) {
+//        if (!result) {
+//            return null;
+//        }
+        if (seckillGoods.getStockCount() < 1) {
+            //判断是否还有库存
+            valueOperations.set("isStockEmpty:" + goods.getId(), "0");
             return null;
         }
         // 生成订单

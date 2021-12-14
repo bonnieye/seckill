@@ -35,6 +35,7 @@ public class OrderController {
     @ResponseBody
     public RespBean detai(User user, Long orderId) {
         if (user == null) {
+            //System.out.print("这里错了");
             return RespBean.error(RespBeanEnum.SESSION_ERROR);
         }
         OrderDetailVo detail = orderService.detail(orderId);
