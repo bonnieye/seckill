@@ -9,7 +9,7 @@ import com.example.seckill.pojo.User;
  *  服务类
  * </p>
  *
- * @author zhoubin
+ * @author yeqiuhan
  * @since 2021-12-06
  */
 public interface ISeckillOrderService extends IService<SeckillOrder> {

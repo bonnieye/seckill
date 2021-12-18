@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Cookie工具类
  *
- * @author zhoubin
+ * @author yeqiuhan
  * @since 1.0.0
  */
 public final class CookieUtil {

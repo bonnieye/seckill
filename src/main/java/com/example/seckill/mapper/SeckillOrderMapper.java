@@ -8,7 +8,7 @@ import com.example.seckill.pojo.SeckillOrder;
  *  Mapper 接口
  * </p>
  *
- * @author zhoubin
+ * @author tantan
  * @since 2021-12-06
  */
 public interface SeckillOrderMapper extends BaseMapper<SeckillOrder> {

@@ -116,7 +116,7 @@ public class SeckillController implements InitializingBean{
             return RespBean.error(RespBeanEnum.EMPTY_STOCK);
         }
 
-        //预减库存，原子操作
+        //redis预减库存，原子操作
         Long stock = valueOperations.decrement("seckillGoods:" + goodsId);
         if (stock < 0) {
             EmptyStockMap.put(goodsId, true);
