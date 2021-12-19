@@ -21,24 +21,6 @@ import org.springframework.util.StringUtils;
 @Service
 @Slf4j
 public class MQReceiver {
-//    @Autowired
-//    private RabbitTemplate rabbitTemplate;
-//    @RabbitListener(queues = "queue_fanout01")
-//    public void receive01(Object msg) {
-//        log.info("QUEUE01接受消息：" + msg);
-//    }
-//    @RabbitListener(queues = "queue_fanout02")
-//    public void receive02(Object msg) {
-//        log.info("QUEUE02接受消息：" + msg);
-//    }
-//    @RabbitListener(queues = "queue_direct01")
-//    public void receive03(Object msg) {
-//        log.info("QUEUE01接受消息：" + msg);
-//    }
-//    @RabbitListener(queues = "queue_direct02")
-//    public void receive04(Object msg) {
-//        log.info("QUEUE02接受消息：" + msg);
-//    }
     @Autowired
     private IGoodsService goodsService;
     @Autowired
